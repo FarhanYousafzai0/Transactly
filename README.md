@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Transactly – Full-Stack Fintech App
 
-## Getting Started
+A Next.js 13 Full Stack Bank Application powered by Appwrite, Plaid, and Dwolla 🚀
 
-First, run the development server:
+---
 
+## 🌟 Features
+
+- Modern Next.js 13 App Router Project
+- Appwrite Backend for Authentication & Database
+- User Onboarding Flow
+- Plaid API Integration (connect bank accounts)
+- Dwolla API Integration (move money securely)
+- Dashboard with real-time account & transaction data
+- Zod + React Hook Form for validation
+- Chart.js Integration
+- Modular & Scalable Project Structure
+- Fully Responsive with Tailwind CSS
+
+---
+
+## 🛠 Tech Stack
+
+**Frontend:**
+- Next.js 13 (App Router)
+- JavaScript
+- TailwindCSS
+- React Hook Form + Zod
+- Chart.js
+
+**Backend & Services:**
+- Appwrite (Auth, DB, Functions)
+- Plaid (Banking Data)
+- Dwolla (ACH Transfers)
+
+---
+
+## ⚙️ How It Works
+
+### 🔐 Auth with Appwrite
+Users sign up/sign in with Appwrite Auth. Their data is stored securely in Appwrite DB collections.
+
+### 🏦 Link Bank Account with Plaid
+Users link their real bank accounts using Plaid Link. We use `public_token` → `access_token` and save metadata securely.
+
+### 💸 Create Dwolla Customer
+We create a verified customer on Dwolla, linking their bank funding source. This is required to send/receive money.
+
+### 💰 Transfer Money
+Users can transfer funds between connected accounts. Dwolla handles ACH behind the scenes. All transactions are stored in Appwrite.
+
+### 📊 Realtime Dashboard
+Users view:
+- Total balance
+- Recent transactions
+- Transfer status
+- Analytics
+
+---
+
+## 📁 Project Structure
+
+
+---
+
+## 🧪 Setup Instructions
+
+### 1. Clone the Repo
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git clone https://github.com/yourusername/transactly.git
+cd transactly
+npm install
+NEXT_PUBLIC_APPWRITE_URL=your-appwrite-url
+NEXT_PUBLIC_APPWRITE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_APPWRITE_DATABASE_ID=your-db-id
+NEXT_PUBLIC_APPWRITE_USER_COLLECTION_ID=your-user-collection
+NEXT_PUBLIC_APPWRITE_ACCOUNT_COLLECTION_ID=your-account-collection
+NEXT_PUBLIC_APPWRITE_TRANSACTION_COLLECTION_ID=your-transaction-collection
+NEXT_PUBLIC_APPWRITE_BALANCE_COLLECTION_ID=your-balance-collection
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+PLAID_CLIENT_ID=your-client-id
+PLAID_SECRET=your-secret
+PLAID_ENV=sandbox
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+DWOLLA_KEY=your-key
+DWOLLA_SECRET=your-secret
+DWOLLA_ENVIRONMENT=sandbox
