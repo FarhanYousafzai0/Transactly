@@ -1,15 +1,13 @@
-import type { Config } from "tailwindcss";
-
+/** @type {import('tailwindcss').Config} */
 const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-    "./constants/**/*.{ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./constants/**/*.{js,jsx,ts,tsx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -71,17 +69,14 @@ const config = {
       },
       backgroundImage: {
         "bank-gradient": "linear-gradient(90deg, #0179FE 0%, #4893FF 100%)",
+        "bank-green-gradient": "linear-gradient(90deg, #01797A 0%, #489399 100%)",
         "gradient-mesh": "url('/icons/gradient-mesh.svg')",
-        "bank-green-gradient":
-          "linear-gradient(90deg, #01797A 0%, #489399 100%)",
       },
       boxShadow: {
-        form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
-        chart:
-          "0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)",
-        profile:
-          "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
-        creditCard: "8px 10px 16px 0px rgba(0, 0, 0, 0.05)",
+        form: "0px 1px 2px rgba(16, 24, 40, 0.05)",
+        chart: "0px 1px 3px rgba(16, 24, 40, 0.10), 0px 1px 2px rgba(16, 24, 40, 0.06)",
+        profile: "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
+        creditCard: "8px 10px 16px rgba(0, 0, 0, 0.05)",
       },
       fontFamily: {
         inter: "var(--font-inter)",
@@ -103,7 +98,6 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+};
 
 export default config;
