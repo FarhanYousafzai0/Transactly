@@ -1,15 +1,11 @@
 
-
-
-const Layout = ({children})=>{
-
-
-    return (
-        <>{children}</>
-    )
+export default function RootLayout({ children }) {
+  return (
+    
+      <main>
+SIDEBAR
+{children}
+      </main>
+      
+  );
 }
-
-
-
-
-export default Layout
