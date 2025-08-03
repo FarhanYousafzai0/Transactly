@@ -14,6 +14,8 @@ const Dashboard = () => {
         <HeaderBox type='greeting' title='Welcome back' subtext='Here is your dashboard' user='John Doe' />
         <TotalBalanceBox accounts={[]} totalBanks={4} totalCurrentBalance={12345}/>
       </div>
+
+      <div>RECENT TRANSECTIONS</div>
     </div>
     <RightSidebar user={isLoggedIn} banks={[{},{}]} totalCurrentBalance={12345} />
   </div>

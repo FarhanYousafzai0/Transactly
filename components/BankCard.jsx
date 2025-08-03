@@ -1,11 +1,64 @@
-import React from 'react'
+import { formatAmount } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-const BankCard = ({account, userName, showBalance = true}) => {
+const BankCard = ({ account = {}, userName = 'User', showBalance = true }) => {
+  const {
+    name = 'Unnamed Account',
+    currentBalance = 1234,
+    appwriteItemId = '',
+    mask = '0000',
+  } = account;
+
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <div className="flex flex-col relative">
+      <Link
+        href={appwriteItemId ? `/transaction-history/?id=${appwriteItemId}` : '#'}
+        className="bank-card"
+      >
+        <div className="bank-card_content z-10 relative">
+          <div>
+            <h1 className="text-16 font-semibold text-white">{name}</h1>
+            {showBalance && (
+              <p className="font-ibm-plex-serif font-black text-white">
+                {formatAmount(currentBalance)}
+              </p>
+            )}
+          </div>
 
-export default BankCard
+          <article className="flex flex-col gap-2 mt-4">
+            <div className="flex justify-between">
+              <h1 className="text-12 font-semibold text-white">{userName}</h1>
+              <h2 className="text-12 font-semibold text-white">●● / ●●</h2>
+            </div>
+            <p className="text-14 font-semibold tracking-[1.1px] text-white">
+              ●●●● ●●●● ●●●● <span className="text-16">{mask}</span>
+            </p>
+          </article>
+        </div>
+
+        <div className="bank-card_icon z-10 relative flex items-center">
+          <Image src="/icons/Paypass.svg" width={20} height={24} alt="pay" />
+          <Image
+            src="/icons/mastercard.svg"
+            width={45}
+            height={32}
+            alt="mastercard"
+            className="ml-5"
+          />
+        </div>
+
+        <Image
+          src="/icons/lines.png"
+          width={316}
+          height={190}
+          alt="lines background"
+          className="absolute top-0 left-0 z-0"
+        />
+      </Link>
+    </div>
+  );
+};
+
+export default BankCard;

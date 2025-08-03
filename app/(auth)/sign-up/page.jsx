@@ -1,10 +1,11 @@
+import AuthPage from '@/components/AuthPage'
 import React from 'react'
 
 const SignUp = () => {
   return (
-    <div>
-      
-    </div>
+    <section className='flex-center size-full max-sm:px-6'>
+      <AuthPage type={'sign-up'}/>
+    </section >
   )
 }
 
