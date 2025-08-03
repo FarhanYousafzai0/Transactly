@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CustomInput from './CustomInput';
+import { Loader2 } from 'lucide-react';
 
 // The schema expects "email", but the form field below was using "username".
 // This mismatch means errors for "email" will never show up.
@@ -26,10 +27,15 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address",
   }),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters",
+  }),
 });
 
 const AuthPage = ({ type }) => {
   const [user, setUser] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -39,7 +45,9 @@ const AuthPage = ({ type }) => {
   });
 
   const onSubmit = (values) => {
+    setIsLoading(true);
     console.log(values);
+    setIsLoading(false);
   };
 
   return (
@@ -75,7 +83,20 @@ const AuthPage = ({ type }) => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <CustomInput name="email" form={form} label="Email" placeholder="Enter your email" type="email" />
             <CustomInput name="password" form={form} label="Password" placeholder="Enter your password" type="password" />
-            <Button type="submit">Submit</Button>
+           <div className='flex flex-col w-full'>
+           <Button type="submit" className="form-btn" disabled={isLoading}>{isLoading ? (<>Loading... <Loader2 className="size-4 animate-spin" /></>) : type === "sign-in" ? "Sign In" : "Sign Up"} </Button>
+           </div>
+
+            <footer className="flex justify-center gap-1">
+            <p className="text-14 font-normal text-gray-600">
+              {type === 'sign-in'
+              ? "Don't have an account?"
+              : "Already have an account?"}
+            </p>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="form-link">
+              {type === 'sign-in' ? 'Sign up' : 'Sign in'}
+            </Link>
+          </footer>
           </form>
         </Form>
       )}
