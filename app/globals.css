@@ -171,7 +171,7 @@
   }
 
   .profile-details {
-    @apply absolute top-20 flex flex-col pt-11;
+    @apply  flex flex-col pt-11;
   }
 
   .profile-name {

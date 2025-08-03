@@ -15,7 +15,7 @@ const Dashboard = () => {
         <TotalBalanceBox accounts={[]} totalBanks={4} totalCurrentBalance={12345}/>
       </div>
     </div>
-    <RightSidebar user={isLoggedIn} totalBanks={4} totalCurrentBalance={12345} />
+    <RightSidebar user={isLoggedIn} banks={[{},{}]} totalCurrentBalance={12345} />
   </div>
 
   </>
