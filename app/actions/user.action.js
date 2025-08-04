@@ -7,9 +7,9 @@ import { ID } from "node-appwrite";
 
   
 
-export const SignUp = async(email, password, firstName, lastName) => {
+export const SignUp = async(values) => {
 
-  
+  const {email, password, firstName, lastName} = values;
   try {
     const { account } = await createAdminClient();
 

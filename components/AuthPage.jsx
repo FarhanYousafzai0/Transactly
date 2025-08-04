@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
-
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import CustomInput from "./CustomInput";
@@ -18,11 +17,10 @@ const AuthPage = ({ type }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-
-const formSchema = getAuthFormSchema(type);
+  const formSchema = getAuthFormSchema(type);
 
   const form = useForm({
-        resolver: zodResolver(formSchema), // ← schema based on type
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -42,34 +40,35 @@ const formSchema = getAuthFormSchema(type);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (type === "sign-in") {
-     
         const response = await SignIn({
           email: values.email,
           password: values.password,
         });
 
-        if(response) router.push('/')
-        toast.success("Successfully signed in", {
-          description: `Welcome back!`,
-        });
+        if (response) {
+          // You may want to redirect or set user here if needed
+          toast.success("Successfully signed in", {
+            description: `Welcome back!`,
+          });
+          // Example: router.push('/')
+        }
       } else {
-       
-        const response = await SignUp({
-          email: values.email,
-          password: values.password,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        });
+        const response = await SignUp(values);
 
-        toast.success("Account created successfully", {
-          description: `Welcome ${values.firstName}!`,
-        });
+        if (response) {
+          setUser({
+            name: values.firstName + " " + values.lastName,
+            email: values.email,
+          });
+          toast.success("Account created successfully", {
+            description: `Welcome ${values.firstName}!`,
+          });
+        } else {
+          toast.error("Error", {
+            description: "Failed to create account. Please try again.",
+          });
+        }
       }
-
-      setUser({
-        email: values.email,
-        name: `${values.firstName} ${values.lastName}`,
-      });
     } catch (error) {
       toast.error("Error", {
         description: error instanceof Error ? error.message : "An unknown error occurred",
@@ -90,58 +89,148 @@ const formSchema = getAuthFormSchema(type);
 
           <div>
             <h1 className="text-2xl font-semibold">
-              {user ? "Linked Account" : type === "sign-in" ? "Sign In" : "Sign Up"}
+              {user
+                ? "Linked Account"
+                : type === "sign-in"
+                ? "Sign In"
+                : "Sign Up"}
             </h1>
             <p className="text-sm text-gray-600">
-              {user ? "Linked your account and get started" : "Please enter your details."}
+              {user
+                ? "Your account has been successfully linked. You can now get started!"
+                : "Please enter your details."}
             </p>
           </div>
         </header>
 
         {user ? (
-          <div className="space-y-3 rounded bg-gray-100 p-4 text-gray-700">
-            <p>Welcome, {user.name}!</p>
-            <p className="text-sm">You are now signed in as {user.email}</p>
-            <Button onClick={() => setUser(null)} variant="outline" className="mt-4">
-              Sign Out
+          <div className="space-y-3 rounded bg-gray-100 p-4 text-gray-700 text-center">
+            <Image
+              src="/icons/linked.svg"
+              width={48}
+              height={48}
+              alt="Linked Account"
+              className="mx-auto mb-2"
+            />
+            <h2 className="text-xl font-semibold">Account Linked!</h2>
+            <p>Welcome, <span className="font-medium">{user.name}</span>!</p>
+            <p className="text-sm">
+              Your account <span className="font-mono">{user.email}</span> has been created and linked successfully.
+            </p>
+            <p className="text-sm text-green-700 mt-2">
+              You can now access all features of Transactly.
+            </p>
+            <Button
+              onClick={() => setUser(null)}
+              variant="outline"
+              className="mt-4"
+            >
+              Back to Sign Up
             </Button>
+            <Link href="/sign-in">
+              <Button className="w-full mt-2">Go to Sign In</Button>
+            </Link>
           </div>
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {type === "sign-in" ? (
                 <>
-                  <CustomInput name="email" form={form} label="Email" placeholder="Enter your email" type="email" />
-                  <CustomInput name="password" form={form} label="Password" placeholder="Enter your password" type="password" />
+                  <CustomInput
+                    name="email"
+                    form={form}
+                    label="Email"
+                    placeholder="Enter your email"
+                    type="email"
+                  />
+                  <CustomInput
+                    name="password"
+                    form={form}
+                    label="Password"
+                    placeholder="Enter your password"
+                    type="password"
+                  />
                 </>
               ) : (
                 <div className="grid gap-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <CustomInput name="firstName" form={form} label="First Name" type="text" />
-                    <CustomInput name="lastName" form={form} label="Last Name" type="text" />
+                    <CustomInput
+                      name="firstName"
+                      form={form}
+                      label="First Name"
+                      type="text"
+                    />
+                    <CustomInput
+                      name="lastName"
+                      form={form}
+                      label="Last Name"
+                      type="text"
+                    />
                   </div>
-                  <CustomInput name="email" form={form} label="Email" type="email" />
-                  <CustomInput name="password" form={form} label="Password" type="password" />
-                  <CustomInput name="address" form={form} label="Address" type="text" />
+                  <CustomInput
+                    name="email"
+                    form={form}
+                    label="Email"
+                    type="email"
+                  />
+                  <CustomInput
+                    name="password"
+                    form={form}
+                    label="Password"
+                    type="password"
+                  />
+                  <CustomInput
+                    name="address"
+                    form={form}
+                    label="Address"
+                    type="text"
+                  />
                   <div className="grid grid-cols-2 gap-4">
-                    <CustomInput name="state" form={form} label="State" type="text" />
-                    <CustomInput name="postalCode" form={form} label="Postal Code" type="text" />
+                    <CustomInput
+                      name="state"
+                      form={form}
+                      label="State"
+                      type="text"
+                    />
+                    <CustomInput
+                      name="postalCode"
+                      form={form}
+                      label="Postal Code"
+                      type="text"
+                    />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <CustomInput name="dateOfBirth" form={form} label="Date of Birth" type="date" />
-                    <CustomInput name="ssn" form={form} label="SSN" type="text" description="Last 4 digits only" />
+                    <CustomInput
+                      name="dateOfBirth"
+                      form={form}
+                      label="Date of Birth"
+                      type="date"
+                    />
+                    <CustomInput
+                      name="ssn"
+                      form={form}
+                      label="SSN"
+                      type="text"
+                      description="Last 4 digits only"
+                    />
                   </div>
                 </div>
               )}
 
               <div className="space-y-4">
-                <Button type="submit" className="w-full form-btn" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  className="w-full form-btn"
+                  disabled={isLoading}
+                >
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Please wait...
                     </>
-                  ) : type === "sign-in" ? "Sign In" : "Sign Up"}
+                  ) : type === "sign-in"
+                  ? "Sign In"
+                  : "Sign Up"}
                 </Button>
 
                 <div className="relative">
@@ -149,21 +238,39 @@ const formSchema = getAuthFormSchema(type);
                     <span className="w-full border-t border-gray-300" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                    <span className="bg-white px-2 text-gray-500">
+                      Or continue with
+                    </span>
                   </div>
                 </div>
 
-                <Button variant="outline" type="button" className="w-full" disabled={isLoading}>
-                  <Image src="/icons/google.svg" width={20} height={20} alt="Google logo" className="mr-2" />
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  <Image
+                    src="/icons/google.svg"
+                    width={20}
+                    height={20}
+                    alt="Google logo"
+                    className="mr-2"
+                  />
                   Google
                 </Button>
               </div>
 
               <footer className="flex justify-center gap-1 text-sm">
                 <p className="text-gray-600">
-                  {type === "sign-in" ? "Don't have an account?" : "Already have an account?"}
+                  {type === "sign-in"
+                    ? "Don't have an account?"
+                    : "Already have an account?"}
                 </p>
-                <Link href={type === "sign-in" ? "/sign-up" : "/sign-in"} className="text-blue-600 hover:underline">
+                <Link
+                  href={type === "sign-in" ? "/sign-up" : "/sign-in"}
+                  className="text-blue-600 hover:underline"
+                >
                   {type === "sign-in" ? "Sign up" : "Sign in"}
                 </Link>
               </footer>
