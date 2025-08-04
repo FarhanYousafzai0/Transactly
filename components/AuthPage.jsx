@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import CustomInput from "./CustomInput";
 import { toast } from "sonner";
 import { getAuthFormSchema } from "@/lib/utils";
+import { SignIn, SignUp } from "@/app/actions/user.action";
 
 const AuthPage = ({ type }) => {
   const [user, setUser] = useState(null);
@@ -41,12 +42,23 @@ const formSchema = getAuthFormSchema(type);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (type === "sign-in") {
-        console.log("Signing in with:", values.email);
+     
+    const newUser = await SignUp(values)
+
+    setUser(newUser);
+
         toast.success("Successfully signed in", {
           description: `Welcome back!`,
         });
       } else {
-        console.log("Signing up with:", values);
+     
+
+    const response = await SignIn({
+        email: values.email,
+        password: values.password,
+    })
+
+
         toast.success("Account created successfully", {
           description: `Welcome ${values.firstName}!`,
         });
