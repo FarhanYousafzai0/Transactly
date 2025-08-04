@@ -43,21 +43,23 @@ const formSchema = getAuthFormSchema(type);
 
       if (type === "sign-in") {
      
-    const newUser = await SignUp(values)
+        const response = await SignIn({
+          email: values.email,
+          password: values.password,
+        });
 
-    setUser(newUser);
-
+        if(response) router.push('/')
         toast.success("Successfully signed in", {
           description: `Welcome back!`,
         });
       } else {
-     
-
-    const response = await SignIn({
-        email: values.email,
-        password: values.password,
-    })
-
+       
+        const response = await SignUp({
+          email: values.email,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        });
 
         toast.success("Account created successfully", {
           description: `Welcome ${values.firstName}!`,
